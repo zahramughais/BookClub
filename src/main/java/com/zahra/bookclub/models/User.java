@@ -41,8 +41,10 @@ public class User {
     
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
     private List<Book> books;
-
-
+    
+    @OneToMany(mappedBy="borrower", fetch = FetchType.LAZY)
+    private List<Book> borrowedB;
+    
 	public User() {
 	}
 
@@ -81,4 +83,22 @@ public class User {
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
 	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+	public List<Book> getBorrowedB() {
+		return borrowedB;
+	}
+
+	public void setBorrowedB(List<Book> borrowedB) {
+		this.borrowedB = borrowedB;
+	}
+	
+	
 }

@@ -38,6 +38,10 @@
         <form:hidden path="user" value="${book.user.id}"/>
         <input type="submit" value="edit" class="btn btn-primary" />
     </form:form>
+    <form action="/books/delete/${book.id}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="Delete" class="btn btn-danger">
+    </form>
     </div>
 
 </body>

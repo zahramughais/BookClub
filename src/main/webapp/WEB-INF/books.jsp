@@ -22,10 +22,10 @@
                 <a href="/books/new">+Add a book to my shelf!</a>
             </div>
         </div>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
-                    <td>Id</td>
+                    <td>ID</td>
                     <td>Title</td>
                     <td>Author Name</td>
                     <td>Posted By</td>

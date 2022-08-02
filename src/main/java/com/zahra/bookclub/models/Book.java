@@ -45,9 +45,14 @@ public class Book {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
     
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userID")
     private User user;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="borrowerID")
+    private User borrower;
     
     //constructor
 	public Book() {
@@ -106,6 +111,14 @@ public class Book {
     protected void onUpdate(){
         this.updatedAt = new Date();
     }
+
+	public User getBorrower() {
+		return borrower;
+	}
+
+	public void setBorrower(User borrower) {
+		this.borrower = borrower;
+	}
 
    
 }

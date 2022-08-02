@@ -39,11 +39,6 @@ public class MainController {
 	//home
 	@RequestMapping("/books")
 	public String home(HttpSession session,Model model) {
-    	Long user_id = (Long) session.getAttribute("user_id");
-    	if (user_id != null) {
-    		User user = userService.findUser(user_id);
-    		session.setAttribute("user", user); 
-    	}
     	List<Book> books = bookService.allBooks();
     	model.addAttribute("books", books);
 		return "books.jsp";
@@ -59,6 +54,8 @@ public class MainController {
             return "index.jsp";
         }
         session.setAttribute("user_id", newUser.getId());
+        User user = userService.findUser((Long) session.getAttribute("user_id"));
+		session.setAttribute("user", user); 
 		return "redirect:/books";
 	}
 	
@@ -71,6 +68,7 @@ public class MainController {
 			return "index.jsp";
 		}
 		session.setAttribute("user_id", user.getId());
+		session.setAttribute("user", user); 
 		return "redirect:/books";
 	}
 	
@@ -124,5 +122,46 @@ public class MainController {
 		}
 	}
 	
+	//delete book
+    @RequestMapping(value="/books/delete/{id}", method=RequestMethod.DELETE)
+    public String destroy(@PathVariable("id") Long id) {
+    	bookService.deleteBook(id);
+    	return "redirect:/books";
+    }
+	
+    //book market page render
+    @RequestMapping("/bookmarket")
+    public String bookMarketShow(Model model, HttpSession session) {
+    	if (session.getAttribute("user_id") == null) {
+    		return "redirect:/";
+    	} else {    		
+    		Long userID = (Long) session.getAttribute("user_id");
+    		List<Book> books = bookService.allBooks();
+    		List<Book> borrowedB = userService.findUser(userID).getBorrowedB();
+    		model.addAttribute("borrowedB", borrowedB);
+    		model.addAttribute("books", books);
+    		return "lenderdash.jsp";
+    	}
+    }
+    
+    //borrow a book
+    @RequestMapping("/books/{id}/borrow")
+    public String borrowB(@PathVariable("id") Long id, HttpSession session) {
+    	Book book = bookService.findBook(id);
+    	User user = (User) session.getAttribute("user");
+    	bookService.borrowBook(book, user);
+    	bookService.updateBook(book);
+    	return "redirect:/bookmarket";
+    }
+    
+    //return a book
+    @RequestMapping("/books/{id}/return")
+    public String returnB(@PathVariable("id") Long id) {
+    	Book book = bookService.findBook(id);
+    	bookService.returnBook(book);
+    	bookService.updateBook(book);
+    	return "redirect:/bookmarket";
+    }
+    
 }
 

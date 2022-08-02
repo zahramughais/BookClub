@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zahra.bookclub.models.Book;
+import com.zahra.bookclub.models.User;
 import com.zahra.bookclub.repositories.BookRepository;
 
 @Service
@@ -34,6 +35,19 @@ public class BookService {
 	public Book updateBook(Book book) {
 		return bookRepository.save(book);
 	}
+	
+	public void deleteBook(Long id) {
+		Book book = findBook(id);
+		if (book !=null) {			
+			bookRepository.deleteById(id);
+		}
+	}
+	
+	public void borrowBook(Book b, User u) {
+		b.setBorrower(u);
+	}
     
-    
+	public void returnBook(Book b) {
+		b.setBorrower(null);
+	}
 }
