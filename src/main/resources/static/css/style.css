@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.purple {
+    color:purple;
+}
+.wrapper {
+    width: 60%;
+    margin: 0 auto;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
